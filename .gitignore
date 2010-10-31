@@ -1,1 +1,8 @@
+*.gem
 .DS_Store
+.bundle
+.yardoc
+doc/*
+pkg/*
+spec/spec.opts
+tmp/*
