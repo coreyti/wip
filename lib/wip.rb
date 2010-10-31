@@ -22,15 +22,11 @@ module WIP
     end
 
     def home
-      @home ||= ENV['HOME'].strip
+      @home ||= Gem.user_home
     end
 
     def here
       @here ||= Dir.pwd
-    end
-
-    def index
-      @index ||= Index.new
     end
   end
 end

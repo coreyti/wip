@@ -7,6 +7,7 @@ Gem.configuration
 
 module WIP
   module CLI
+    autoload :Base,  'wip/cli/base'
     autoload :Index, 'wip/cli/index'
 
     class Shell < Thor

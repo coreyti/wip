@@ -1,11 +1,8 @@
 module WIP
   module CLI
-    class Index
-      attr_reader :path
-
-      def initialize(path)
-        @path    = path
-        @initial = File.exist?(index_file) ? YAML.load_file(index_file) : {}
+    class Index < Base
+      def initialize(*)
+        super
       end
 
       def get(options = {})
@@ -20,13 +17,12 @@ module WIP
       private
 
         def index
-          home  = ENV['HOME']
           found = File.join(context, '**', '.wiprc')
           found = Dir.glob(found).inject({}) do |memo, entry|
             dirs     = entry.split('/')[0...-1]
-            location = dirs.join('/').sub(/\/\.?$/, '')
+            location = File.expand_path(dirs.join('/').sub(/\/\.?$/, ''))
 
-            unless location == home
+            unless location == WIP.home
               memo["#{dirs.last}"] = {
                 "path" => location
               }
@@ -35,7 +31,7 @@ module WIP
             memo
           end
 
-          works = (@initial || {}).merge(found)
+          works = (config || {}).merge(found)
           cache = works.reject { |key, value| key == '.' }
 
           File.open(index_file, 'w') do |out|
@@ -48,14 +44,6 @@ module WIP
               :path => works[key]['path']
             }
           end
-        end
-
-        def index_file
-          Pathname.new(File.join(Gem.user_home, ".wip/index"))
-        end
-
-        def context
-          (path.match(/^\//) ? path : File.join(WIP.here, path)).sub(/\/\.?$/, '')
         end
     end
   end
