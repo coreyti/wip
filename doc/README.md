@@ -81,5 +81,7 @@ Scratch Pad
     As such, **DO NOT** edit that file (which Textmate allows).
   * Here is an edit of this file, as navigated to through the Dropbox path
     (which symlinks to the `doc` folder).
+  * Here is an edit of this file, as loaded in Textforce on my iPhone and
+    auto-sync'd back to my MacBook by way of Dropbox.
 
 
