@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+begin
+  require 'wip'
+rescue LoadError
+  $:.unshift(File.expand_path('../../lib', __FILE__))
+  require 'wip'
+end
+
+require 'wip/cli'
+
+begin
+  WIP::CLI.start
+rescue WIP::WIPError => e
+  WIP.ui.error e.message
+  WIP.ui.error e.backtrace.join("\n") if ENV["WIP_DEBUG"]
+  exit e.status_code
+rescue Interrupt
+  WIP.ui.error "\nQuitting..."
+  exit 1
+end

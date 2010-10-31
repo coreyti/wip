@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+name="$1"
+echo "wip-work... name: $name"
+
+
+# for wiprc in "$HOME/.wiprc" "./.wiprc" ; do
+#   
+# done
