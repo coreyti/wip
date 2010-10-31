@@ -9,28 +9,28 @@ cmd="$1"
 
 case "${cmd:-list}" in
   help)
-    wip-cli "help"
+    wip-ruby "help"
     ;;
   index)
     # $ wip index         --> wip-index... base: .
     # $ wip index ./dir   --> wip-index... base: ./dir
     # $ wip index ~/dir   --> wip-index... base: /Users/corey/dir
-    wip-cli "index" "${2:-.}"
+    wip-ruby "index" "${2:-.}"
     ;;
   list)
     # $ wip               --> wip-list... base: .
     # $ wip list .        --> wip-list... base: .
     # $ wip list ./dir    --> wip-list... base: ./dir
     # $ wip list ~/dir    --> wip-list... base: /Users/corey/dir
-    wip-cli "list" "${2:-.}"
+    wip-ruby "list" "${2:-.}"
     ;;
   work)
     # $ wip work          --> wip-work... name: .
     # $ wip work project  --> wip-work... name: project
-    wip-work "${2:-.}"
+    wip-bash "${2:-.}"
     ;;
   *)
     # $ wip project       --> wip-work... name: project
-    wip-work "$1"
+    wip-bash "$1"
     ;;
 esac
