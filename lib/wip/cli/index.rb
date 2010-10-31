@@ -23,12 +23,12 @@ module WIP
           home  = ENV['HOME']
           found = File.join(context, '**', '.wiprc')
           found = Dir.glob(found).inject({}) do |memo, entry|
-            dirs = entry.split('/')[0...-1]
-            path = dirs.join('/')
+            dirs     = entry.split('/')[0...-1]
+            location = dirs.join('/').sub(/\/\.?$/, '')
 
-            unless path == home
+            unless location == home
               memo["#{dirs.last}"] = {
-                "path" => path
+                "path" => location
               }
             end
 
@@ -36,9 +36,10 @@ module WIP
           end
 
           works = (@initial || {}).merge(found)
+          cache = works.reject { |key, value| key == '.' }
 
           File.open(index_file, 'w') do |out|
-            YAML.dump(works, out)
+            YAML.dump(cache, out)
           end
 
           works.keys.map do |key|
@@ -54,7 +55,7 @@ module WIP
         end
 
         def context
-          (path.match(/^\//) ? path : File.join(WIP.here, path)).sub(/\/$/, '')
+          (path.match(/^\//) ? path : File.join(WIP.here, path)).sub(/\/\.?$/, '')
         end
     end
   end
