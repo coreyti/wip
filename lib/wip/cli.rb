@@ -27,19 +27,8 @@ module WIP
                             :banner  => "Specify a path to index",
                             :default => '. (working dir)'
       def index(path = nil)
-
-        @_index ||= WIP::CLI::Index.new
-
-        path ||= '.'
-        wips   = @_index.get(path, :sort => :name)
-
-        # TODO: flag-based write
-        if wips.empty?
-          @_index.set(path)
-          @_index.get(path, :sort => :name)
-        end
-
-        wips.each do |work|
+        @_index ||= WIP::CLI::Index.new(path || '.')
+        @_index.get(:sort => :name).each do |work|
           WIP.ui.info "  * #{work[:name]}\n    #{work[:path]}"
         end
       end

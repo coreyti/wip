@@ -3,13 +3,13 @@ module WIP
     class Index
       attr_reader :path
 
-      def initialize
-        @index = File.exist?(index_file) ? YAML.load_file(index_file) : {}
+      def initialize(path)
+        @path    = path
+        @initial = File.exist?(index_file) ? YAML.load_file(index_file) : {}
       end
 
-      def get(path, options = {})
-        @path  = path
-        result = index_cache.select do |entry|
+      def get(options = {})
+        result = index.select do |entry|
           entry[:path].match(/^#{context}/)
         end
 
@@ -17,28 +17,34 @@ module WIP
         return result
       end
 
-      def set(path)
-        wips = File.join(context, '**', '.wiprc')
-        wips = Dir.glob(wips).inject({}) do |memo, entry|
-          dirs = entry.split('/')[0...-1]
-          memo["#{dirs.last}"] = {
-            "path" => dirs.join('/')
-          }
-          memo
-        end
-
-        File.open(index_file, 'w') do |out|
-          YAML.dump(wips, out)
-        end
-      end
-
       private
 
-        def index_cache
-          @_index_cache ||= @index.keys && @index.keys.map do |key|
+        def index
+          home  = ENV['HOME']
+          found = File.join(context, '**', '.wiprc')
+          found = Dir.glob(found).inject({}) do |memo, entry|
+            dirs = entry.split('/')[0...-1]
+            path = dirs.join('/')
+
+            unless path == home
+              memo["#{dirs.last}"] = {
+                "path" => path
+              }
+            end
+
+            memo
+          end
+
+          works = (@initial || {}).merge(found)
+
+          File.open(index_file, 'w') do |out|
+            YAML.dump(works, out)
+          end
+
+          works.keys.map do |key|
             {
               :name => key,
-              :path => @index[key]['path']
+              :path => works[key]['path']
             }
           end
         end
