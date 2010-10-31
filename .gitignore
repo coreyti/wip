@@ -4,5 +4,6 @@
 .yardoc
 doc/*
 pkg/*
+scratch/*
 spec/spec.opts
 tmp/*
