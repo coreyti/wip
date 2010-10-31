@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+# puts "wip-ruby..."
+# puts "    args... #{ARGV.inspect}"
+
 begin
   require 'wip'
 rescue LoadError
@@ -10,7 +13,7 @@ end
 require 'wip/cli'
 
 begin
-  WIP::CLI.start
+  WIP::CLI::Shell.start
 rescue WIP::WIPError => e
   WIP.ui.error e.message
   WIP.ui.error e.backtrace.join("\n") if ENV["WIP_DEBUG"]

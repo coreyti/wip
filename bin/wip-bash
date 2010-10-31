@@ -1,7 +1,22 @@
 #!/usr/bin/env bash
 
-name="$1"
-echo "wip-work... name: $name"
+cmd="$1"
+
+# echo "wip-bash..."
+
+wip-show() {
+  # echo "    show...  name: $1"
+}
+
+case "$cmd" in
+  show)
+    wip-show $2
+    ;;
+  *)
+    wip-show $1
+    ;;
+esac
+
 
 
 # for wiprc in "$HOME/.wiprc" "./.wiprc" ; do

@@ -6,35 +6,43 @@ require 'thor/actions'
 Gem.configuration
 
 module WIP
-  class CLI < Thor
-    include Thor::Actions
+  module CLI
+    autoload :Index, 'wip/cli/index'
 
-    def initialize(*args)
-      super
-      use_shell = options["no-color"] ? Thor::Shell::Basic.new : shell
+    class Shell < Thor
+      include Thor::Actions
 
-      WIP.ui = UI::Shell.new(use_shell)
-      Gem::DefaultUserInteraction.ui = UI::RGProxy.new(WIP.ui)
-    end
+      def initialize(*args)
+        super
+        use_shell = options["no-color"] ? Thor::Shell::Basic.new : shell
 
-    desc "list", "List all indexed 'works'"
-    def list(path)
-      list_path = absolute(path)
-      WIP.ui.info "Indexed 'works' within #{list_path}:"
+        WIP.ui = UI::Shell.new(use_shell)
+        Gem::DefaultUserInteraction.ui = UI::RGProxy.new(WIP.ui)
+      end
 
-      WIP.index.all.sort_by { |w| w[:name] }.each do |w|
-        item_path = w[:path]
+      check_unknown_options!
 
-        if w[:path].match(/^#{list_path}.*/)
-          WIP.ui.info "  * #{w[:name]}:\n    #{w[:path]}"
+      desc "index", "List all indexed 'works'"
+      method_option "path", :type    => :string,
+                            :banner  => "Specify a path to index",
+                            :default => '. (working dir)'
+      def index(path = nil)
+
+        @_index ||= WIP::CLI::Index.new
+
+        path ||= '.'
+        wips   = @_index.get(path, :sort => :name)
+
+        # TODO: flag-based write
+        if wips.empty?
+          @_index.set(path)
+          @_index.get(path, :sort => :name)
+        end
+
+        wips.each do |work|
+          WIP.ui.info "  * #{work[:name]}\n    #{work[:path]}"
         end
       end
     end
-
-    private
-
-      def absolute(path)
-        (path.match(/^\//) ? path : File.join(WIP.here, path)).sub(/\/$/, '')
-      end
   end
 end

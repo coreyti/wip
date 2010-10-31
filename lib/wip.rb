@@ -6,7 +6,6 @@ require 'yaml'
 require 'wip/version'
 
 module WIP
-  autoload :Index, 'wip/index'
   autoload :UI,    'wip/ui'
 
   class WIPError < StandardError
@@ -27,7 +26,7 @@ module WIP
     end
 
     def here
-      @here ||= `pwd`.strip
+      @here ||= Dir.pwd
     end
 
     def index

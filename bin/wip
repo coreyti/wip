@@ -1,36 +1,38 @@
 #!/usr/bin/env bash
 
 # TODO:
-#   * ask a Ruby option parser to get us the options.
+#   * ask a Ruby option parser to get us the options for bash.
 #   * allow passing args through:  
-#     wip iwrtw -- RAILS_ENV=production
+#     wip work-name --flag -- RAILS_ENV=production
 
 cmd="$1"
 
-case "${cmd:-list}" in
+case "${cmd:-index}" in
   help)
-    wip-ruby "help"
+    # $ wip help                        --> wip-ruby... ["help"]
+    wip-ruby "help" $2
     ;;
   index)
-    # $ wip index         --> wip-index... base: .
-    # $ wip index ./dir   --> wip-index... base: ./dir
-    # $ wip index ~/dir   --> wip-index... base: /Users/corey/dir
+    # $ wip                             --> wip-ruby... ["index", "."]
+    # $ wip index                       --> wip-ruby... ["index", "."]
+    # $ wip index .                     --> wip-ruby... ["index", "."]
+    # $ wip index ~/Workspace           --> wip-ruby... ["index", "/Users/corey/Workspace"]
+
     wip-ruby "index" "${2:-.}"
     ;;
-  list)
-    # $ wip               --> wip-list... base: .
-    # $ wip list .        --> wip-list... base: .
-    # $ wip list ./dir    --> wip-list... base: ./dir
-    # $ wip list ~/dir    --> wip-list... base: /Users/corey/dir
-    wip-ruby "list" "${2:-.}"
-    ;;
-  work)
-    # $ wip work          --> wip-work... name: .
-    # $ wip work project  --> wip-work... name: project
-    wip-bash "${2:-.}"
+  show)
+    # $ wip show                        --> wip-bash... show '.'
+    # $ wip show .                      --> wip-bash... show '.'
+    # $ wip show work-name              --> wip-bash... show 'work-name'
+    # $ wip show ~/Workspace/work-path  --> wip-bash... show '/Users/corey/Workspace/work-path'
+
+    wip-bash "show" "${2:-.}"
     ;;
   *)
-    # $ wip project       --> wip-work... name: project
+    # $ wip .                           --> wip-bash... show '.'
+    # $ wip work-name                   --> wip-bash... show 'work-name'
+    # $ wip ~/Workspace/work-path       --> wip-bash... show '/Users/corey/Workspace/work-path'
+
     wip-bash "$1"
     ;;
 esac
