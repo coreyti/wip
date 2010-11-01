@@ -21,4 +21,11 @@ Gem::Specification.new do |s|
   s.require_path       = "lib"
 
   s.add_development_dependency 'bundler', '~> 1.0.0'
+
+  s.post_install_message = %Q{**************************************************
+
+  Thank you for installing #{s.summary}
+
+**************************************************
+}
 end
