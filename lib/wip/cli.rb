@@ -9,6 +9,7 @@ module WIP
   module CLI
     autoload :Base,  'wip/cli/base'
     autoload :Index, 'wip/cli/index'
+    autoload :Show,  'wip/cli/show'
 
     class Shell < Thor
       include Thor::Actions
@@ -32,6 +33,15 @@ module WIP
         @_index.get(:sort => :name).each do |work|
           WIP.ui.info "  * #{work[:name]}\n    #{work[:path]}"
         end
+      end
+
+      desc "show", "Move to and activate a 'work'"
+      method_option "path", :type    => :string,
+                            :banner  => "Specify a path to activate",
+                            :default => '. (working dir)'
+      def show(path = nil)
+        @_show ||= WIP::CLI::Show.new(path || '.')
+        @_show.get
       end
     end
   end

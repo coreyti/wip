@@ -3,6 +3,8 @@
 # puts "wip-ruby..."
 # puts "    args... #{ARGV.inspect}"
 
+BASH_COMMANDS = [:show]
+
 begin
   require 'wip'
 rescue LoadError
@@ -13,7 +15,11 @@ end
 require 'wip/cli'
 
 begin
-  WIP::CLI::Shell.start
+  result = WIP::CLI::Shell.start
+
+  if result && BASH_COMMANDS.include?(ARGV.first.intern)
+    STDOUT.print result
+  end
 rescue WIP::WIPError => e
   WIP.ui.error e.message
   WIP.ui.error e.backtrace.join("\n") if ENV["WIP_DEBUG"]
