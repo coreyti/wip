@@ -3,31 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 require "wip/version"
 
-BOOTSTRAP_VERSION = "1.0"
-
-begin
-  require "rubygems"
-  gem     "wip-bootstrap", "= #{BOOTSTRAP_VERSION}"
-  require "wip-bootstrap"
-rescue LoadError => e
-  puts %{
-WARNING:
-#{e.message}wip-bootstrap must be pre-installed. I'll try to grab that now.
-
-}
-  local = File.join(File.dirname(__FILE__), '..', 'wip-bootstrap')
-
-  if File.exist?(local)
-    `cd #{local} && rake install`
-  else
-    `gem install wip-bootstrap`
-  end
-end
-
-Gem.clear_paths
-gem     "wip-bootstrap", "= #{BOOTSTRAP_VERSION}"
-require "wip-bootstrap"
-WIP::Bootstrap.run
+BOOTSTRAP_VERSION = "1.1"
 
 Gem::Specification.new do |s|
   s.name        ="wip"

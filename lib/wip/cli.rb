@@ -2,6 +2,13 @@ $:.unshift File.expand_path('../vendor', __FILE__)
 require 'thor'
 require 'thor/actions'
 
+# begin
+#   require 'wip-bootstrap'
+#   WIP::Bootstrap.run
+# rescue
+#   raise 'Failed to bootstrap `wip`.'
+# end
+
 # Work around a RubyGems bug
 Gem.configuration
 
