@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
 
-# puts "wip-ruby..."
-# puts "    args... #{ARGV.inspect}"
-
 BASH_COMMANDS = [:show]
 
 begin
@@ -15,11 +12,7 @@ end
 require 'wip/cli'
 
 begin
-  result = WIP::CLI::Shell.start
-
-  if result && BASH_COMMANDS.include?(ARGV.first.intern)
-    STDOUT.print result
-  end
+  WIP::CLI::Shell.start
 rescue WIP::WIPError => e
   WIP.ui.error e.message
   WIP.ui.error e.backtrace.join("\n") if ENV["WIP_DEBUG"]

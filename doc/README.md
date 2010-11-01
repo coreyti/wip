@@ -1,9 +1,9 @@
 `wip` README
 ============================================================================
 
-  > NOTE: **`wip`** is WIP
+  > NOTE: `wip` is WIP
 
-**`wip`** is a concept I'm playing with for streamlining the process of
+`wip` is a concept I'm playing with for streamlining the process of
 coding for and documenting client and personal software projects.
 
 While this document (specifically) and the idea (generally) are
@@ -12,13 +12,14 @@ and will, in fact, be using the techniques described herein for this project
 itself.
 
 
-What is a **wip** Project
+`wip` *works* (in theory)
 ----------------------------------------------------------------------------
 
-A Project is made up of:
+A *work* is made up of:
 
   * Notes
   * Code
+  * ...?
 
 The goal is to create an experience in which working on a given client or
 personal project is:
@@ -41,8 +42,189 @@ personal project is:
         team-at-large, while allowing for "local" preferences as well.
 
 
+`wip` *works* (NOW)
+----------------------------------------------------------------------------
+
+`wip`, currently, is a rubygem that installs an executable and a bash
+function (`wip`, as it turns out) which together assist with navigating to
+and "activating" a given *work* (project workspace, for now).
+
+The following is an example shell session, using `wip` as it exists now:
+
+    # given `wip` is installed .............................................
+
+
+    # `wip index` ... list "works"
+    # ......................................................................
+    corey@computer ~  $ wip index .
+
+    corey@computer ~  $ echo "echo 'working on wip...'" > \
+                        Workspace/com.github/coreyti/wip/.wiprc
+
+    corey@computer ~  $ wip index .
+      * wip
+        /Users/corey/Workspace/com.github/coreyti/wip
+
+    corey@computer ~  $ echo "echo 'working on help...'" > \
+                        Workspace/help/.wiprc
+
+    corey@computer ~  $ wip index .
+      * help
+        /Users/corey/Workspace/help
+      * wip
+        /Users/corey/Workspace/com.github/coreyti/wip
+
+
+
+    # `wip index` ... narrowing the scope & speeding things up
+    # ......................................................................
+    corey@computer ~  $ wip index .
+      * help
+        /Users/corey/Workspace/help
+      * wip
+        /Users/corey/Workspace/com.github/coreyti/wip
+
+    corey@computer ~  $ wip index ~/Workspace/com.github
+      * wip
+        /Users/corey/Workspace/com.github/coreyti/wip
+
+
+
+    # `wip index` ... defaults
+    # ......................................................................
+    corey@computer ~  $ wip index                   # no arg to `wip index`
+      * help
+        /Users/corey/Workspace/help
+      * wip
+        /Users/corey/Workspace/com.github/coreyti/wip
+
+    corey@computer ~  $ wip                         # no arg to `wip`
+      * help
+        /Users/corey/Workspace/help
+      * wip
+        /Users/corey/Workspace/com.github/coreyti/wip
+
+
+
+    # `wip show` ... activate a "work"
+    # ......................................................................
+    corey@computer ~  $ pwd
+    /Users/corey
+
+    corey@computer ~  $ wip show wip
+    -------------------------------------------------------------------------------
+     work : /Users/corey/Workspace/com.github/coreyti/wip
+    -------------------------------------------------------------------------------
+    working on wip...
+
+    corey@computer wip (git::master) $ wip            # scoped `wip index`
+      * wip
+        /Users/corey/Workspace/com.github/coreyti/wip
+
+    corey@computer wip (git::master) $ pwd
+    /Users/corey/Workspace/com.github/coreyti/wip
+
+
+
+    # `wip show` ... default: `wip ARG` to `wip show ARG`
+    # ......................................................................
+    corey@computer wip (git::master) $ cd ~
+
+    corey@computer ~  $ wip .
+
+    corey@computer ~  $ wip wip
+    ------------------------------------------------------------------------
+     work : /Users/corey/Workspace/com.github/coreyti/wip
+    ------------------------------------------------------------------------
+    working on wip...
+
+    corey@computer wip (git::master) $ wip .
+    ------------------------------------------------------------------------
+     work : /Users/corey/Workspace/com.github/coreyti/wip
+    ------------------------------------------------------------------------
+    working on wip...
+
+    corey@computer wip (git::master) $ pwd
+    /Users/corey/Workspace/com.github/coreyti/wip
+
+
+
+    # `wip show` ... with a path
+    # ......................................................................
+    corey@computer wip (git::master) $ cd ~
+
+    corey@computer ~  $ wip foo
+
+    corey@computer ~  $ wip show foo
+
+    corey@computer ~  $ wip show ~/Workspace/com.github/
+
+    corey@computer ~  $ wip show ~/Workspace/com.github/coreyti/wip
+    ------------------------------------------------------------------------
+     work : /Users/corey/Workspace/com.github/coreyti/wip
+    ------------------------------------------------------------------------
+    working on wip...
+
+    corey@computer wip (git::master) $ pwd
+    /Users/corey/Workspace/com.github/coreyti/wip
+
+
+
+    # `wip help`
+    # ......................................................................
+    corey@computer wip (git::master) $ cd ~
+
+    corey@computer ~  $ wip index .
+      * help
+        /Users/corey/Workspace/help
+      * wip
+        /Users/corey/Workspace/com.github/coreyti/wip
+
+    corey@computer ~  $ wip help
+    Tasks:
+      wip-ruby back         # Move to and activate most recent 'work'
+      wip-ruby help [TASK]  # Describe available tasks or one specific task
+      wip-ruby index        # List all indexed 'works'
+      wip-ruby show         # Move to and activate a 'work'
+
+    corey@computer ~  $ wip show help
+    ------------------------------------------------------------------------
+     work : /Users/corey/Workspace/help
+    ------------------------------------------------------------------------
+    working on help...
+
+    corey@computer help  $ pwd
+    /Users/corey/Workspace/help
+
+
+
+    # `wip back`
+    # ......................................................................
+    corey@computer help  $ cd ~
+
+    corey@computer ~  $ wip show wip
+    ------------------------------------------------------------------------
+     work : /Users/corey/Workspace/com.github/coreyti/wip
+    ------------------------------------------------------------------------
+    working on wip...
+
+    corey@computer wip (git::master) $ cd ~/Documents/
+
+    corey@computer Documents  $ wip back
+    ------------------------------------------------------------------------
+     work : /Users/corey/Workspace/com.github/coreyti/wip
+    ------------------------------------------------------------------------
+    working on wip...
+
+    corey@computer wip (git::master) $ pwd
+    /Users/corey/Workspace/com.github/coreyti/wip
+
+
 Assumptions & Intentional Limitations
 ----------------------------------------------------------------------------
+
+  > Most of the following are irrelevant for now. Once `wip` does more
+  > though...
 
   1. I develop with:
      * an Apple computer
@@ -59,7 +241,8 @@ Assumptions & Intentional Limitations
 On "Notes"
 ----------------------------------------------------------------------------
 
-TODO: expand upon, clarify:
+  > Most of the following are irrelevant for now. Once `wip` does more
+  > though...
 
   * backed by DropBox
   * on-the-fly versioned, with git-wip

@@ -24,11 +24,28 @@ module WIP
 
       check_unknown_options!
 
+      desc "route", "Route finder", :hide => true
+      def route(*args)
+        @_all_tasks    ||= self.class.all_tasks
+        @_public_names ||= @_all_tasks.inject([]) do |memo, hash|
+          memo << hash[0] unless hash[1].hidden?
+          memo
+        end
+
+        # TODO: be sure we cannot loop (send :route)
+        if @_public_names.include?(args.first)
+          send(args.shift, *args)
+        else
+          # no matching task: see if there's a "work" to show
+          show(*args)
+        end
+      end
+
       desc "index", "List all indexed 'works'"
       method_option "path", :type    => :string,
                             :banner  => "Specify a path to index",
                             :default => '. (working dir)'
-      def index(path = nil)
+      def index(path = nil, *)
         @_index ||= WIP::CLI::Index.new(path || '.')
         @_index.get(:sort => :name).each do |work|
           WIP.ui.info "  * #{work[:name]}\n    #{work[:path]}"
@@ -39,9 +56,14 @@ module WIP
       method_option "path", :type    => :string,
                             :banner  => "Specify a path to activate",
                             :default => '. (working dir)'
-      def show(path = nil)
+      def show(path = nil, *)
         @_show ||= WIP::CLI::Show.new(path || '.')
-        @_show.get
+        WIP.ui.info @_show.get
+      end
+
+      desc "back", "Move to and activate most recent 'work'"
+      def back(*)
+        WIP.ui.info ENV['WIP_BACK']
       end
     end
   end

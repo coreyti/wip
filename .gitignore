@@ -2,7 +2,6 @@
 .DS_Store
 .bundle
 .yardoc
-doc/*
 pkg/*
 scratch/*
 spec/spec.opts
