@@ -30,63 +30,21 @@ Gem::Specification.new do |s|
 Thank you for installing #{s.name} v#{s.version}
 ------------------------------------------------------------------------------
 
-What happened:
+Please Note:
 
-  * First, `wip` depends on `wip-bootstrap`, which should have been installed
-    for you if it wasn't already around. `wip-bootstrap` simply adds a few
-    bash wrappers to `wip` and sets up your bash profile.
+`wip` (for now) depends on `wip-bootstrap`. If you didn't already have the
+necessary version of `wip-bootstrap` installed, you should see a short banner
+just above this, indicating that you need to run
 
-    `wip-bootstrap` shouldn't have to be updated too often, and updates to
-    `wip` will not attempt to re-bootstrap, unless dependent on a new
-    bootstrap version.
+    wip-bootstrap
 
-    If bootstrapping *was* run, you should have seen a related banner
-    preceding this one.
-  * `wip` provides ruby CLI utilities that are meant to assist with software
-    project workspace and workflow management (called 'works').
+If so, please run that now and then `source ~/.wiprc` to get set up.
 
-    The executable doing most of the heavy lifting is:
-
-        wip-ruby
-
-  * However, one of the things `wip-bootstrap` takes care of is add a bash
-    function called `wip` to your environment. So,
-
-        wip
-
-    is your entry point (even though it doesn't show up with `which wip`).
+`wip-bootstrap` shouldn't have to be updated too often, so this step will be
+infrequent, even when you update `wip` (proper).
 
 
-Getting started:
-
-  * If this is your *first* time installing `wip` on this machine, you need
-    to `source ~/.wiprc` to get things activated for your current shell
-    session(s).
-  * Drop a `.wiprc` file into a project of your liking. Add some
-    project-specific setup to that file. To start, try this:
-
-        echo 'welcome to my cool project!'
-
-  * Next these a try:
-
-        wip help
-
-        wip index ~/workspace
-            # containing, perhaps, numerous 'works'
-            # returns a list of work names and paths
-
-        wip
-            # shortcut for `wip index .`
-
-        wip show WORK_NAME
-            # cd's to known (indexed) work and sources .wiprc, e.g.:
-            # welcome to my cool project!
-
-        wip WORK_NAME
-            # shortcut for `wip show`
-
-        wip .
-            # shortcut for `wip show .`
+For more info on `wip`, see <http://github.com/coreyti/wip>
 
 
 Feedback, complaints, suggestions, etc?
