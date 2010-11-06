@@ -3,6 +3,11 @@
 
   > NOTE: `wip` is WIP
 
+  > ALSO: if `wip-bootstrap` fails to bootstrap, that's probably because
+  > (hard-coded-ly) assumes you have a .profile file. all you need to do
+  > is add `source .wiprc` to the profile you *do* have (e.g., `.wiprc`)
+  > I'll fix this soon. 
+
 `wip` is a concept I'm playing with for streamlining the process of
 coding for and documenting client and personal software projects.
 
