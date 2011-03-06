@@ -1,7 +1,9 @@
+*_local
 *.gem
 .DS_Store
 .bundle
 .yardoc
+Gemfile.lock
 pkg/*
 scratch/*
 spec/spec.opts
