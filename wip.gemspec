@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.require_path       = "lib"
 
   s.add_runtime_dependency     'wip-bootstrap', BOOTSTRAP_VERSION
-  s.add_development_dependency 'bundler',       '~> 1.0.0'
+  s.add_development_dependency 'bundler',       '~> 1.0.10'
 
   s.post_install_message = %Q{
 Thank you for installing #{s.name} v#{s.version}

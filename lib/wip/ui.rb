@@ -1,3 +1,5 @@
+require 'rubygems/user_interaction'
+
 module WIP
   class UI
     def warn(message)
@@ -46,6 +48,7 @@ module WIP
     class RGProxy < Gem::SilentUI
       def initialize(ui)
         @ui = ui
+        super()
       end
 
       def say(message)
