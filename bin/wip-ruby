@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-BASH_COMMANDS = [:show]
-
 begin
   require 'wip'
 rescue LoadError

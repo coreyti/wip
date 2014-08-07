@@ -15,6 +15,7 @@ Gem.configuration
 module WIP
   module CLI
     autoload :Base,  'wip/cli/base'
+    autoload :Base,  'wip/cli/exec'
     autoload :Index, 'wip/cli/index'
     autoload :Show,  'wip/cli/show'
 
@@ -48,6 +49,17 @@ module WIP
         end
       end
 
+      desc "back", "Move to and activate most recent 'work'"
+      def back(*)
+        WIP.ui.info ENV['WIP_BACK']
+      end
+
+      desc "exec", "Execute commands specified within .wiprc files"
+      def exec(*)
+        @_exec ||= WIP::CLI::Exec.new(path || '.')
+        WIP.ui.info @_exec.get
+      end
+
       desc "index", "List all indexed 'works'"
       method_option "path", :type    => :string,
                             :banner  => "Specify a path to index",
@@ -66,11 +78,6 @@ module WIP
       def show(path = nil, *)
         @_show ||= WIP::CLI::Show.new(path || '.')
         WIP.ui.info @_show.get
-      end
-
-      desc "back", "Move to and activate most recent 'work'"
-      def back(*)
-        WIP.ui.info ENV['WIP_BACK']
       end
     end
   end
