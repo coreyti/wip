@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 require "wip/version"
 
-BOOTSTRAP_VERSION = "1.1"
+BOOTSTRAP_VERSION = "1.2.0"
 
 Gem::Specification.new do |s|
   s.name        ="wip"
