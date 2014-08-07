@@ -1,3 +1,8 @@
-echo 'working on wip...'
+#!/usr/env ruby
 
-rvm use 1.8.7
+puts "loading 'wip'..."
+
+# `wip exec example`
+def example
+  puts "executing 'example'"
+end

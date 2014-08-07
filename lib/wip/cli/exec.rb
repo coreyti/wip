@@ -1,12 +1,16 @@
 module WIP
   module CLI
-    class Exec < Base
+    class Exec # < Base
       def initialize(*)
-        super
+        @_executor = Module.new
+        @_executor.module_exec { load('.wiprc') }
       end
 
-      def get(options = {})
-        raise "here!"
+      def get(*args)
+        command = args.shift.intern
+        @_executor.send(command, *args)
+      rescue NoMethodError
+        puts "[FAIL] '#{command}' is not defined (add it to ./.wiprc)"
       end
     end
   end

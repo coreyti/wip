@@ -15,7 +15,7 @@ Gem.configuration
 module WIP
   module CLI
     autoload :Base,  'wip/cli/base'
-    autoload :Base,  'wip/cli/exec'
+    autoload :Exec,  'wip/cli/exec'
     autoload :Index, 'wip/cli/index'
     autoload :Show,  'wip/cli/show'
 
@@ -55,9 +55,9 @@ module WIP
       end
 
       desc "exec", "Execute commands specified within .wiprc files"
-      def exec(*)
-        @_exec ||= WIP::CLI::Exec.new(path || '.')
-        WIP.ui.info @_exec.get
+      def exec(*args)
+        @_exec ||= WIP::CLI::Exec.new
+        WIP.ui.info @_exec.get(*args)
       end
 
       desc "index", "List all indexed 'works'"
